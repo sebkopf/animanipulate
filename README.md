@@ -1,6 +1,12 @@
 animanipulate
 =============
 
+## Prerequisites
+
+ - ```R``` (http://www.r-project.org/)
+ - one of the underlying toolkits for drawing the user interface, for example ```tcltk``` (usually installed already on Windows and MacOSX) or ```GTK```
+
+If you want to use ```GTK```, there are installayion instructions here:
 
 ## Installation
 
@@ -9,7 +15,7 @@ This package expands the ```gWidgetsManipulate``` package, which is not hosted o
 install.packages("gWidgetsManipulate", repos="http://R-Forge.R-project.org", type = "source")
 ````
 
-To install the ```animanipulate``` package from GitHub, the ```devtools``` package provides a super convenient way of doing it, run the following from the R command line to install ```devtools```:
+To then install the ```animanipulate``` package from GitHub, the ```devtools``` package provides a super convenient way of doing it, run the following from the R command line to install ```devtools```:
 ```
 install.packages('devtools', depen=T) # development tools
 ```
@@ -17,7 +23,7 @@ install.packages('devtools', depen=T) # development tools
 Then install the ```animanipulate``` package from GitHub using ```devtools```:
 ```
 library(devtools)
-install_github('dfv', 'sebkopf')
+install_github('animanipulate', 'sebkopf')
 ```
 
 ## Examples
