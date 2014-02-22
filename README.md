@@ -1,6 +1,8 @@
 animanipulate
 =============
 
+Note: this is a work-in-progress, the first stable version is not released yet, please check back in a couple of weeks.
+
 ## Prerequisites
 
  - ```R``` (http://www.r-project.org/)
