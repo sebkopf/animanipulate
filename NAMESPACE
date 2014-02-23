@@ -1,0 +1,4 @@
+import(gWidgetsManipulate)
+export(animanipulate)
+#export(animate)
+#exportPattern("^[^\\.]") # easier for debugging (because can just resource modified code files with the GUI running)
