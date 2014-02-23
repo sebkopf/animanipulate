@@ -1,6 +1,9 @@
 # FIXME: implement proper control of the sleep function in the animation-control
 # from this top level (Depending on how long the user function takes to evaluate)
-
+# implement buttons for saving pdf and gif
+# --> check if animation package is installed and give warning if not (please install animation package)
+# Note: I really like the mathematica manipulate shortcuts but they don't work because I don't have the resolveVariableArguments methods 
+# defined in my namespace so when the Manipulate class in your package calls them it throws an error.
 
 #' Reference class for manipulate object
 #' Expands functionality of the Manipulate object from John Verzani's gWidgetsManipulate package
@@ -12,7 +15,7 @@ Animanipulate <- setRefClass(
     #' Only extension are the save buttons.
     #' Ideally this is implemented with the parent execute function also taking the window parameter
     #' and then just adding the buttons here and then callSuper(w)
-    execute = function(w = gwindow(gettext("ManipulateR"), visible=FALSE)) {
+    execute = function(w = gwindow(gettext("AnimanipulateR"), width=800, height=600, visible=FALSE)) {
       
       # FIXME: implement save pdf and save gif buttons
       # for save gif, will probably have to ask which animation control to export as gif if there are multiple
@@ -38,7 +41,7 @@ Animanipulate <- setRefClass(
       })
       
       visible(w) <- TRUE
-      svalue(pg) <- 0.6
+      svalue(pg) <- 0.55
       change_handler() # initial
     },
    
@@ -54,45 +57,37 @@ Animanipulate <- setRefClass(
 ))
 
 ##' Manipulate command ala RStudio
+##' (with added animation controls).
 ##'
 ##' @param ._expr expression to produce output.
 ##' @param ... used to specify controls. See \code{picker},
 ##' \code{checkbox}, \code{slider}.
 ##'
-##' These controls may also be specified through a object, from which the control is guessed.
-##' A logical maps to \code{checkbox}.
-##' A character maps to \code{picker}.
-##' A numeric to \code{slider}. This mapping can be specified as an arithmetic sequence of
-##' points (length 5 or greater), or as a numeric vector of length 2 to 4 with defaults
-##' like: \code{c(min, max, step=1, initial=min)}
-##' @return makes output, returns Manipulate object
+##' @return makes output, returns Animanipulate object
 ##' @export
 ##' @examples
 ##' \dontrun{
-##' ## from RStudio::manipulate
-##' animanipulate(## expression
-##'            plot(cars, xlim = c(x.min, x.max), type = type, 
-##'                 axes = axes, ann = label),
-##'            ## controls
-##'            x.min = slider(0,15),
-##'            x.max = slider(15,30, initial = 25),
-##'            type = picker("p", "l", "b", "c", "o", "h", "s"),
-##'            axes = checkbox(TRUE, label="Draw Axes"),
-##'            label = checkbox(FALSE, label="Draw Labels")
-##'            )
-##' ## using shortcuts, ala Mathematica's manipulate
-##' animanipulate(## expression
-##'            plot(cars, xlim = c(x.min, x.max), type = type, 
-##'                 axes = axes, ann = label),
-##'            ## controls
-##'            x.min = 0:15,
-##'            x.max = c(15,30, 1, 25), ## min, max, step=min, initial=min
-##'            type = c("p", "l", "b", "c", "o", "h", "s"),
-##'            axes = TRUE,
-##'            label = FALSE
-##'            )
+##' manipulate(## expression
+##' {
+##'   size <- sqrt.size^2
+##'   y <- get(distribution)(size)
+##'   plot(density(y, bw = bandwidth/100, kernel=kernel), 
+##'        axes = axes, ann = label,
+##'        main = paste("kernel:", kernel))
+##'   points(y, rep(0, size))
+##' },
+##' ## controls
+##' distribution = picker("rnorm", "rexp"),
+##' kernel = picker("gaussian", "epanechnikov", 
+##'                 "rectangular", "triangular", "cosine"),
+##' sqrt.size = slider(5, 30, step = 1, init = 10), 
+##' bandwidth = slider(5, 200, step = 5, init = 100, 
+##'                    label = "bandwith [%]"), # using % here b/c some toolkits only allow integers (GTK is fine with real)
+##' axes = checkbox(TRUE, label="Draw Axes"),
+##' label = checkbox(TRUE, label="Draw Labels")
+##' )
 ##' }
-animanipulate <- function(._expr,...) {
+manipulate <- function(._expr,...) {
   obj <- Animanipulate$new(substitute(._expr),...)
   obj$execute()
   invisible(obj)

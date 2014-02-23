@@ -9,11 +9,12 @@ AnimationControl <- setRefClass(
   contains="ManipulateControls",
   fields = list(
     slider = "ANY", # Slider control object
-    handlerID = "ANY" # changed handler of the animation text field
+    handlerID = "ANY", # changed handler of the animation text field
+    lastRun = "POSIXct" # when the animation was last run (for Animanpulate object to check which animation was running last)
   ),
   methods=list(
     initialize = function(slider) {
-      initFields(slider = slider)
+      initFields(slider = slider, lastRun = Sys.time())
       
       # store animation parameters in the paramter list l of the Controls object
       animation <- list(
@@ -30,6 +31,8 @@ AnimationControl <- setRefClass(
     #' animate the plot
     animate = function(){
       while (l$on == TRUE) {
+        # make note of running
+        lastRun <<- Sys.time()
         # update value of the control
         set_value(l$x + l$step)
         Sys.sleep(l$sleep)
@@ -89,6 +92,14 @@ AnimationControl <- setRefClass(
       # make corresponding animation controls
       n <- dim(cont)[1]
       cont[n+1, 2] <- (g <- ggroup(cont=cont, horizontal=TRUE, ...))
+      
+      # idle handler to stop animation if it gets hung up or user switches to animating another contorl
+      addHandlerIdle(g, handler = function(...){
+        if (Sys.time() - lastRun > 5 * l$sleep) { # if 5 times longer than the sleep time, assume it's time to stop
+          l$on <<- FALSE
+          svalue(play) <- "Play"
+        }
+      }, interval = 100) # check very 100ms
       
       # continuous animation value text widget
       w <- gedit(NULL, cont=g, coerce.with = as.numeric)
