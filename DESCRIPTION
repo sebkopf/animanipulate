@@ -2,7 +2,7 @@ Package: animanipulate
 Type: Package
 Title: Manipulate and animate plots (an extension of gWidgetsManipulate, a
     gWidgets port of RStudio's manipulate package).
-Version: 0.5
+Version: 0.1
 Date: 2014-02-20
 Author: Sebastian Kopf, using existing classes provided by John Verzani's
     gWidgetsManipulate / RStudio's manipulate package
@@ -14,9 +14,9 @@ Description: Generate a simple graphical user interface for manipulating and
 Imports:
     gWidgetsManipulate
 Depends:
-    gWidgetsManipulate
+    gWidgetsManipulate,
+    gWidgetsRGtk2
 Suggests:
-    gWidgetsRGtk2,
     animation
 License: GPL-2
 LazyLoad: yes

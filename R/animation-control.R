@@ -1,8 +1,3 @@
-# TODO:
-# implement that the Animanipulate object controls the sleep time of all animation controls
-# based on the evalution time necessary for the plot function it is rendering
-
-
 ## Animation control class
 AnimationControl <- setRefClass(
   "AnimationControl",
@@ -93,14 +88,6 @@ AnimationControl <- setRefClass(
       n <- dim(cont)[1]
       cont[n+1, 2] <- (g <- ggroup(cont=cont, horizontal=TRUE, ...))
       
-      # idle handler to stop animation if it gets hung up or user switches to animating another contorl
-      addHandlerIdle(g, handler = function(...){
-        if (Sys.time() - lastRun > 5 * l$sleep) { # if 5 times longer than the sleep time, assume it's time to stop
-          l$on <<- FALSE
-          svalue(play) <- "Play"
-        }
-      }, interval = 100) # check very 100ms
-      
       # continuous animation value text widget
       w <- gedit(NULL, cont=g, coerce.with = as.numeric)
       enabled(w) <- FALSE
@@ -108,8 +95,8 @@ AnimationControl <- setRefClass(
       widget <<- w
       
       # button controls (step back, play/pause, step forward)
-      gbutton(" - ", handler = function(...) set_value(l$x - abs(l$step)), cont = g)
-      play <- gbutton("Play", handler = function(...) {
+      gbutton(" - ", tooltip = "Move one step back.", handler = function(...) set_value(l$x - abs(l$step)), cont = g)
+      play <- gbutton("Play", tooltip = "Start/stop animation.", handler = function(...) {
         opts <- c("Play", "Pause")
         i <- (which(opts == svalue(play)) %% length(opts)) + 1
         svalue(play) <- opts[i]
@@ -156,4 +143,12 @@ AnimationControl <- setRefClass(
       blockHandler(widget, handlerID)
       set_value(initial)
       unblockHandler(widget, handlerID)
+      
+      # idle handler to stop animation if it gets hung up or user switches to animating another contorl
+      addHandlerIdle(g, handler = function(...){
+        if (Sys.time() - lastRun > 5 * l$sleep) { # if 5 times longer than the sleep time, assume it's time to stop
+          l$on <<- FALSE
+          svalue(play) <- "Play"
+        }
+      }, interval = 100) # check very 100ms
     }))
