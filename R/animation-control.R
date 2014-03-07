@@ -106,11 +106,11 @@ AnimationControl <- setRefClass(
         } else
           l$on <<- FALSE
       }, cont = g)
-      gbutton("+", handler = function(...) set_value(l$x + abs(l$step)), cont = g)
+      gbutton("+", tooltip = "Move one step forward.", handler = function(...) set_value(l$x + abs(l$step)), cont = g)
       
       # speed
-      gbutton("^", handler = function(...) l$step <<- l$step*2, cont = g) # faster
-      gbutton("v", handler = function(...) l$step <<- l$step/2, cont = g) # slower
+      gbutton("^", tooltip = "Speed up animation.", handler = function(...) l$step <<- l$step*2, cont = g) # faster
+      gbutton("v", tooltip = "Slow down animation.", handler = function(...) l$step <<- l$step/2, cont = g) # slower
       
       # direction
       direction <- gbutton("->", handler = function(...) {

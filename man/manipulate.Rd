@@ -15,8 +15,8 @@ manipulate(._expr, ...)
 makes output, returns Animanipulate object
 }
 \description{
-Manipulate command ala RStudio (with added animation
-controls).
+Due to the event loop structure of tcltk, this only works
+in the GTK toolkit at the moment.
 }
 \examples{
 \dontrun{
