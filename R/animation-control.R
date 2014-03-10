@@ -1,3 +1,7 @@
+#' @note deprecated!
+#' use nimated-slider-control instead
+#' implement rest of logic in animanipulate!
+
 ## Animation control class
 AnimationControl <- setRefClass(
   "AnimationControl",
