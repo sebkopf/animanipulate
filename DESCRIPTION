@@ -12,6 +12,7 @@ Description: Generate a simple graphical user interface for manipulating and
     implemented as an extension of John Verzani's gWidgetsManipulate package
     which in turn is modeled after RStudio's manipulate package).
 Depends:
+    cairoDevice,
     gWidgetsRGtk2
 Suggests:
     animation
