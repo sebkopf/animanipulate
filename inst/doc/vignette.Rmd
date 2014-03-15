@@ -1,0 +1,6 @@
+<<style, eval=TRUE, echo=FALSE, results='asis'>>=
+BiocStyle::latex()
+@
+
+Vignette of animanipulate to follow. For now, please see docs on RStudio's website on the manipulate package.
+http://www.rstudio.com/ide/docs/advanced/manipulate

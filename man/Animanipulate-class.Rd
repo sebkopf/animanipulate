@@ -10,9 +10,7 @@ gWidgetsManipulate package
 }
 \section{Methods}{
 \itemize{
-\item \code{change_handler(...)}: Evaluate code with current values
-
-\item \code{execute()}: Make the GUI
+\item \code{execute(cont = gwindow(gettext("ManipulateR"), visible = FALSE))}: Make the GUI
 
 \item \code{get_values()}: Get widget values as list
 
