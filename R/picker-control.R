@@ -1,5 +1,4 @@
 ##' @include controls.R
-##' @include mapping.R
 ##' @author John Verzani (gWidgetsManipulate package)
 ##' @author Sebastian Kopf
 NULL
@@ -36,7 +35,7 @@ Picker <- setRefClass(
       ## create picker
       picker <- list(choices = valueNames,
                      values = values,
-                     radio = size(values) <= radio_cutoff
+                     radio = length(values) <= radio_cutoff
       )
       callSuper(l=picker, label=label, initial=.self$initial)
     },

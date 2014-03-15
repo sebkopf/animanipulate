@@ -1,5 +1,5 @@
-##' @include slider-control.R
 ##' @include animations.R
+##' @include slider-control.R
 NULL
 
 ## Slider class
@@ -22,12 +22,14 @@ AnimatedSlider <- setRefClass(
       if (blockChangedHandler) unblock_handlers('changed')
     },
     
-    set_value=function(value) {
+    set_value=function(val) {
       block_handlers(c('slider', 'counter')) # don't retrigger update handlers 
-      value <<- value
+      if (!is.na(val))
+        value <<- val # update interval value if it's a valid number
       slider.all <- widget[] # set slider closests to value
       callSuper(slider.all[which(abs(slider.all - value) == min(abs(slider.all - value)))][1])
-      svalue(counter) <<- value # update display counter
+      if (!identical(value, svalue(counter)))
+        svalue(counter) <<- value # update display counter
       unblock_handlers(c('slider', 'counter')) # don't retrigger update handlers 
     },
     
@@ -36,7 +38,9 @@ AnimatedSlider <- setRefClass(
     make_gui = function(cont, handler, ...){
       callSuper(cont, NULL, ...) # slider 
       cont[dim(cont)[1]+1, 2] <- (g <- ggroup(cont=cont, horizontal=TRUE, ...))
-      counter <<- gedit(value, cont=g, coerce.with = as.numeric)
+      counter <<- glabel(value, cont=g, coerce.with = as.numeric) 
+      # Note: gedit is implemented to work well but slows down the animation considerably so currently using glabel instead
+      # perhaps implement that a double click on the counter allows one to enter a numeric value (when not in animation!)
       size(counter) <<- c(50, -1)
       make_animation_gui(cont=g) # animation controls
       register_handler('slider', addHandlerChanged(widget, function(...) { set_value(svalue(widget)) }), widget) # slider updates counter
@@ -46,9 +50,8 @@ AnimatedSlider <- setRefClass(
     )
   )
 
-t <- AnimatedSlider$new(min=0, max=10, label="test", validate=TRUE)
-t$make_gui(glayout(cont=gwindow("test")), handler=function(...) print("test"))
-
+#t <- AnimatedSlider$new(min=0, max=10, label="test", validate=TRUE)
+#t$make_gui(glayout(cont=gwindow("test")), handler=function(...) print(t$value))
 
 ##' Slider interface
 ##' 

@@ -1,5 +1,3 @@
-##' @include animanipulate.R
-NULL
 
 ## Class for holding controls
 #' @author John Verzani (gWidgetsManipulate package)
@@ -38,13 +36,13 @@ ManipulateControls <- setRefClass(
       if (!is.null(handler))
         register_handler('changed', addHandlerChanged(widget, handler=handler))
     },
-    register_handler=function(name, id, widget = widget){
-      handlers[[name]] <<- list(id = id, widget = widget)
+    register_handler=function(name, id, w = widget){
+      handlers[[name]] <<- list(id = id, widget = w)
     },
-    block_handlers=function(names = names(handlers)){
+    block_handlers=function(names = names(handlers)) {
       sapply(handlers[names], function(handler) blockHandler(handler$widget, handler$id))
     },
-    unblock_handlers=function(names = names(handlers)){
+    unblock_handlers=function(names = names(handlers)) {
       sapply(handlers[names], function(handler) unblockHandler(handler$widget, handler$id))
     }
   ))

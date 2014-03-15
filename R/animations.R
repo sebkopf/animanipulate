@@ -31,16 +31,16 @@ AnimationControls <- setRefClass(
       # check for permissible range
       if ( (!is.na(min) && x < min) ) {
         if (on && bounce) { # during animation and bounce on, revert direction
-          step <<- -1 * step
-          x <- min + step * 2^speed
-        }
-        x <- max
+          step <<- (-1) * step
+          x <- min + .self$step * 2^speed
+        } else
+          x <- max
       } else if (!is.na(max) && x > max) {
         if (on && bounce) { # during animation and bounce on, revert direction
           step <<- -1 * step
-          x <- max + step * 2^speed
-        }
-        x <- min
+          x <- max + .self$step * 2^speed
+        } else
+          x <- min
       }
       value <<- x
     },
