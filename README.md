@@ -3,6 +3,8 @@ animanipulate
 
 Generates simple graphical user interfaces for manipulating and animating custom plots (inspired by the Mathematica function manipulate and implemented as an extension of John Verzani's gWidgetsManipulate package which in turn is modeled after RStudio's manipulate package). 
 
+**NOTE: this packages is no longer in active development. If I had time I would reimplement it in [Shiny](https://shiny.rstudio.com/) so it allows easy generation of responsive browser based plot exploration apps.**
+
 ![Screenshot of animanipulate](/screenshots/example1.png?raw=true)
 
 ## Prerequisites
